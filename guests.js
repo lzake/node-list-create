@@ -4,12 +4,21 @@ var fs = require('fs');
 var path = require('path');
 var guestsPath = path.join(__dirname, 'guests.json');
 
-fs.readFile(guestsPath, 'utf8', function(err, data) {
-    if (err) {
-        throw err;
-    }
+var node = path.basename(process.argv[0]);
+var file = path.basename(process.argv[1]);
+var cmd = process.argv[2];
 
-    var guests = JSON.parse(data);
+if (cmd === 'read') {
+    fs.readFile(guestsPath, 'utf8', function(err, data) {
+        if (err) {
+            throw err;
+        }
 
-    console.log(guests);
-});
+        var guests = JSON.parse(data);
+
+        console.log(guests);
+    });
+} else {
+    console.error(`Usage: ${node} ${file} read`);
+    process.exit(1);
+}
